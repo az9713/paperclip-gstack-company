@@ -29,7 +29,7 @@ echo ""
 
 # Convert POSIX path (/c/Users/...) to Windows path (C:\Users\...) for Paperclip
 to_win_path() {
-  cygpath -w "$1" 2>/dev/null || echo "$1"
+  cygpath -m "$1" 2>/dev/null || echo "$1"
 }
 
 api_post() {
@@ -203,63 +203,63 @@ EOF
 CEO_ID=$(create_agent \
   "CEO" "ceo" "Chief Executive Officer" "" \
   "Strategic planning, task delegation, cross-functional coordination, plan review at CEO level" \
-  "claude-opus-4-6" 80 900 "*/15 * * * *" \
+  "claude-haiku-3-20240307" 80 900 "*/15 * * * *" \
   paperclip gstack-bridge gstack-autoplan gstack-plan-ceo-review gstack-office-hours)
 
 # CTO (reports to CEO)
 CTO_ID=$(create_agent \
-  "CTO" "manager" "Chief Technology Officer" "${CEO_ID}" \
+  "CTO" "cto" "Chief Technology Officer" "${CEO_ID}" \
   "Engineering management, code review, release management, technical planning" \
-  "claude-sonnet-4-6" 150 1800 "*/20 * * * *" \
+  "claude-haiku-3-20240307" 150 1800 "*/20 * * * *" \
   paperclip gstack-bridge gstack-plan-eng-review gstack-review gstack-ship)
 
 # QA Lead (reports to CEO)
 QA_LEAD_ID=$(create_agent \
-  "QALead" "manager" "QA Lead" "${CEO_ID}" \
+  "QALead" "qa" "QA Lead" "${CEO_ID}" \
   "Report-only QA oversight, bug triage, quality metrics" \
-  "claude-sonnet-4-6" 150 1200 "0 */4 * * *" \
+  "claude-haiku-3-20240307" 150 1200 "0 */4 * * *" \
   paperclip gstack-bridge gstack-qa-only)
 
 # Security Officer (reports to CEO)
 SECURITY_ID=$(create_agent \
-  "SecurityOfficer" "ic" "Chief Security Officer" "${CEO_ID}" \
+  "SecurityOfficer" "general" "Chief Security Officer" "${CEO_ID}" \
   "OWASP Top 10, STRIDE threat modeling, security audits, safety controls" \
-  "claude-sonnet-4-6" 150 1200 "0 */6 * * *" \
+  "claude-haiku-3-20240307" 150 1200 "0 */6 * * *" \
   paperclip gstack-bridge gstack-cso gstack-careful gstack-guard)
 
 # Design Lead (reports to CEO)
 DESIGN_ID=$(create_agent \
-  "DesignLead" "ic" "Design Lead" "${CEO_ID}" \
+  "DesignLead" "designer" "Design Lead" "${CEO_ID}" \
   "UI/UX review, design systems, design-to-HTML, visual exploration, plan design review" \
-  "claude-sonnet-4-6" 150 1200 "*/30 * * * *" \
+  "claude-haiku-3-20240307" 150 1200 "*/30 * * * *" \
   paperclip gstack-bridge gstack-design-review gstack-design-html gstack-design-consultation gstack-design-shotgun gstack-plan-design-review)
 
 # Senior Engineer (reports to CTO)
 SENIOR_ENG_ID=$(create_agent \
-  "SeniorEngineer" "ic" "Senior Software Engineer" "${CTO_ID}" \
+  "SeniorEngineer" "engineer" "Senior Software Engineer" "${CTO_ID}" \
   "Feature implementation, bug fixing, root-cause debugging, multi-AI second opinion" \
-  "claude-sonnet-4-6" 200 1800 "*/30 * * * *" \
+  "claude-haiku-3-20240307" 200 1800 "*/30 * * * *" \
   paperclip gstack-bridge gstack-investigate gstack-codex)
 
 # Release Engineer (reports to CTO)
 RELEASE_ENG_ID=$(create_agent \
-  "ReleaseEngineer" "ic" "Release Engineer" "${CTO_ID}" \
+  "ReleaseEngineer" "devops" "Release Engineer" "${CTO_ID}" \
   "Merge, deploy, canary monitoring, release documentation, deploy setup" \
-  "claude-sonnet-4-6" 200 1800 "*/30 * * * *" \
+  "claude-haiku-3-20240307" 200 1800 "*/30 * * * *" \
   paperclip gstack-bridge gstack-land-and-deploy gstack-canary gstack-document-release gstack-setup-deploy)
 
 # DevEx Engineer (reports to CTO)
 DEVEX_ID=$(create_agent \
-  "DevExEngineer" "ic" "Developer Experience Engineer" "${CTO_ID}" \
+  "DevExEngineer" "engineer" "Developer Experience Engineer" "${CTO_ID}" \
   "DX reviews, plan DX review, retrospectives, performance benchmarking" \
-  "claude-sonnet-4-6" 150 1200 "0 * * * *" \
+  "claude-haiku-3-20240307" 150 1200 "0 * * * *" \
   paperclip gstack-bridge gstack-devex-review gstack-plan-devex-review gstack-retro gstack-benchmark)
 
 # QA Engineer (reports to QA Lead)
 QA_ENG_ID=$(create_agent \
-  "QAEngineer" "ic" "QA Engineer" "${QA_LEAD_ID}" \
+  "QAEngineer" "qa" "QA Engineer" "${QA_LEAD_ID}" \
   "Full QA loop: find bugs, write tests, fix, verify. Atomic commits per fix." \
-  "claude-sonnet-4-6" 200 1800 "*/30 * * * *" \
+  "claude-haiku-3-20240307" 200 1800 "*/30 * * * *" \
   paperclip gstack-bridge gstack-qa)
 
 # ─────────────────────────────────────────────

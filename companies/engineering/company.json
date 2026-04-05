@@ -60,7 +60,7 @@
     {
       "key": "cto",
       "name": "CTO",
-      "role": "manager",
+      "role": "cto",
       "title": "Chief Technology Officer",
       "reportsTo": "ceo",
       "capabilities": "Engineering management, code review, release management, technical planning",
@@ -84,7 +84,7 @@
     {
       "key": "senior-engineer",
       "name": "SeniorEngineer",
-      "role": "ic",
+      "role": "engineer",
       "title": "Senior Software Engineer",
       "reportsTo": "cto",
       "capabilities": "Feature implementation, bug fixing, root-cause debugging, multi-AI second opinion",
@@ -107,7 +107,7 @@
     {
       "key": "release-engineer",
       "name": "ReleaseEngineer",
-      "role": "ic",
+      "role": "devops",
       "title": "Release Engineer",
       "reportsTo": "cto",
       "capabilities": "Merge, deploy, canary monitoring, release documentation, deploy setup",
@@ -132,7 +132,7 @@
     {
       "key": "devex-engineer",
       "name": "DevExEngineer",
-      "role": "ic",
+      "role": "engineer",
       "title": "Developer Experience Engineer",
       "reportsTo": "cto",
       "capabilities": "DX reviews, plan DX review, retrospectives, performance benchmarking",
@@ -157,7 +157,7 @@
     {
       "key": "qa-lead",
       "name": "QALead",
-      "role": "manager",
+      "role": "qa",
       "title": "QA Lead",
       "reportsTo": "ceo",
       "capabilities": "Report-only QA oversight, bug triage, quality metrics",
@@ -179,7 +179,7 @@
     {
       "key": "qa-engineer",
       "name": "QAEngineer",
-      "role": "ic",
+      "role": "qa",
       "title": "QA Engineer",
       "reportsTo": "qa-lead",
       "capabilities": "Full QA loop: find bugs, write tests, fix, verify. Atomic commits per fix.",
@@ -201,7 +201,7 @@
     {
       "key": "security-officer",
       "name": "SecurityOfficer",
-      "role": "ic",
+      "role": "general",
       "title": "Chief Security Officer",
       "reportsTo": "ceo",
       "capabilities": "OWASP Top 10, STRIDE threat modeling, security audits, safety controls",
@@ -225,7 +225,7 @@
     {
       "key": "design-lead",
       "name": "DesignLead",
-      "role": "ic",
+      "role": "designer",
       "title": "Design Lead",
       "reportsTo": "ceo",
       "capabilities": "UI/UX review, design systems, design-to-HTML, visual exploration, plan design review",
