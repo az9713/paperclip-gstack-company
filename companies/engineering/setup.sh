@@ -27,6 +27,11 @@ echo ""
 # Helpers
 # ─────────────────────────────────────────────
 
+# Convert POSIX path (/c/Users/...) to Windows path (C:\Users\...) for Paperclip
+to_win_path() {
+  cygpath -w "$1" 2>/dev/null || echo "$1"
+}
+
 api_post() {
   local path="$1"
   local body="$2"
@@ -43,9 +48,11 @@ api_get() {
 import_skill() {
   local company_id="$1"
   local source_path="$2"
-  echo "    Importing skill from: ${source_path}"
+  local win_path
+  win_path=$(to_win_path "${source_path}")
+  echo "    Importing skill from: ${win_path}"
   api_post "/companies/${company_id}/skills/import" \
-    "{\"source\": \"${source_path}\"}" | jq -r '.imported[].slug // empty' | sed 's/^/      + /'
+    "{\"source\": \"${win_path}\"}" | jq -r '.imported[].slug // empty' | sed 's/^/      + /'
 }
 
 # ─────────────────────────────────────────────
@@ -155,7 +162,8 @@ create_agent() {
   # Build onboarding dir path
   local onboarding_key
   onboarding_key=$(echo "${name}" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g')
-  local onboarding_dir="${SCRIPT_DIR}/onboarding/${onboarding_key}"
+  local onboarding_dir
+  onboarding_dir=$(to_win_path "${SCRIPT_DIR}/onboarding/${onboarding_key}")
 
   local body
   body=$(cat <<EOF
