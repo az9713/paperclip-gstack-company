@@ -43,7 +43,7 @@
       "onboardingDir": "./onboarding/ceo",
       "adapterType": "claude_local",
       "adapterConfig": {
-        "model": "claude-opus-4-6",
+        "model": "claude-haiku-3-20240307",
         "maxTurnsPerRun": 80,
         "timeoutSec": 900,
         "dangerouslySkipPermissions": true
@@ -67,7 +67,7 @@
       "onboardingDir": "./onboarding/cto",
       "adapterType": "claude_local",
       "adapterConfig": {
-        "model": "claude-sonnet-4-6",
+        "model": "claude-haiku-3-20240307",
         "maxTurnsPerRun": 150,
         "timeoutSec": 1800,
         "dangerouslySkipPermissions": true
@@ -91,7 +91,7 @@
       "onboardingDir": "./onboarding/senior-engineer",
       "adapterType": "claude_local",
       "adapterConfig": {
-        "model": "claude-sonnet-4-6",
+        "model": "claude-haiku-3-20240307",
         "maxTurnsPerRun": 200,
         "timeoutSec": 1800,
         "dangerouslySkipPermissions": true
@@ -114,7 +114,7 @@
       "onboardingDir": "./onboarding/release-engineer",
       "adapterType": "claude_local",
       "adapterConfig": {
-        "model": "claude-sonnet-4-6",
+        "model": "claude-haiku-3-20240307",
         "maxTurnsPerRun": 200,
         "timeoutSec": 1800,
         "dangerouslySkipPermissions": true
@@ -139,7 +139,7 @@
       "onboardingDir": "./onboarding/devex-engineer",
       "adapterType": "claude_local",
       "adapterConfig": {
-        "model": "claude-sonnet-4-6",
+        "model": "claude-haiku-3-20240307",
         "maxTurnsPerRun": 150,
         "timeoutSec": 1200,
         "dangerouslySkipPermissions": true
@@ -164,7 +164,7 @@
       "onboardingDir": "./onboarding/qa-lead",
       "adapterType": "claude_local",
       "adapterConfig": {
-        "model": "claude-sonnet-4-6",
+        "model": "claude-haiku-3-20240307",
         "maxTurnsPerRun": 150,
         "timeoutSec": 1200,
         "dangerouslySkipPermissions": true
@@ -186,7 +186,7 @@
       "onboardingDir": "./onboarding/qa-engineer",
       "adapterType": "claude_local",
       "adapterConfig": {
-        "model": "claude-sonnet-4-6",
+        "model": "claude-haiku-3-20240307",
         "maxTurnsPerRun": 200,
         "timeoutSec": 1800,
         "dangerouslySkipPermissions": true
@@ -208,7 +208,7 @@
       "onboardingDir": "./onboarding/security-officer",
       "adapterType": "claude_local",
       "adapterConfig": {
-        "model": "claude-sonnet-4-6",
+        "model": "claude-haiku-3-20240307",
         "maxTurnsPerRun": 150,
         "timeoutSec": 1200,
         "dangerouslySkipPermissions": true
@@ -232,7 +232,7 @@
       "onboardingDir": "./onboarding/design-lead",
       "adapterType": "claude_local",
       "adapterConfig": {
-        "model": "claude-sonnet-4-6",
+        "model": "claude-haiku-3-20240307",
         "maxTurnsPerRun": 150,
         "timeoutSec": 1200,
         "dangerouslySkipPermissions": true
