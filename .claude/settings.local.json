@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -n \"createCompany\\\\|create.*company\" /c/Users/simon/Downloads/paperclip_collection/project_gp2/gstack_paperclip/paperclip/server/src/services/*.ts)"
+    ]
+  }
+}

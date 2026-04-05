@@ -1,0 +1,252 @@
+{
+  "company": {
+    "name": "Engineering Co",
+    "issuePrefix": "ENG",
+    "description": "A fully autonomous engineering team powered by gstack skills on Paperclip."
+  },
+  "skills": [
+    { "key": "gstack-autoplan",         "sourcePath": "../../gstack/autoplan" },
+    { "key": "gstack-plan-ceo-review",  "sourcePath": "../../gstack/plan-ceo-review" },
+    { "key": "gstack-office-hours",     "sourcePath": "../../gstack/office-hours" },
+    { "key": "gstack-plan-eng-review",  "sourcePath": "../../gstack/plan-eng-review" },
+    { "key": "gstack-review",           "sourcePath": "../../gstack/review" },
+    { "key": "gstack-ship",             "sourcePath": "../../gstack/ship" },
+    { "key": "gstack-investigate",      "sourcePath": "../../gstack/investigate" },
+    { "key": "gstack-codex",            "sourcePath": "../../gstack/codex" },
+    { "key": "gstack-land-and-deploy",  "sourcePath": "../../gstack/land-and-deploy" },
+    { "key": "gstack-canary",           "sourcePath": "../../gstack/canary" },
+    { "key": "gstack-document-release", "sourcePath": "../../gstack/document-release" },
+    { "key": "gstack-setup-deploy",     "sourcePath": "../../gstack/setup-deploy" },
+    { "key": "gstack-devex-review",     "sourcePath": "../../gstack/devex-review" },
+    { "key": "gstack-plan-devex-review","sourcePath": "../../gstack/plan-devex-review" },
+    { "key": "gstack-retro",            "sourcePath": "../../gstack/retro" },
+    { "key": "gstack-benchmark",        "sourcePath": "../../gstack/benchmark" },
+    { "key": "gstack-qa-only",          "sourcePath": "../../gstack/qa-only" },
+    { "key": "gstack-qa",               "sourcePath": "../../gstack/qa" },
+    { "key": "gstack-cso",              "sourcePath": "../../gstack/cso" },
+    { "key": "gstack-careful",          "sourcePath": "../../gstack/careful" },
+    { "key": "gstack-guard",            "sourcePath": "../../gstack/guard" },
+    { "key": "gstack-design-review",    "sourcePath": "../../gstack/design-review" },
+    { "key": "gstack-design-html",      "sourcePath": "../../gstack/design-html" },
+    { "key": "gstack-design-consultation", "sourcePath": "../../gstack/design-consultation" },
+    { "key": "gstack-design-shotgun",   "sourcePath": "../../gstack/design-shotgun" },
+    { "key": "gstack-plan-design-review","sourcePath": "../../gstack/plan-design-review" },
+    { "key": "gstack-bridge",           "sourcePath": "./skills/gstack-bridge" }
+  ],
+  "agents": [
+    {
+      "key": "ceo",
+      "name": "CEO",
+      "role": "ceo",
+      "title": "Chief Executive Officer",
+      "capabilities": "Strategic planning, task delegation, cross-functional coordination, plan review at CEO level",
+      "onboardingDir": "./onboarding/ceo",
+      "adapterType": "claude_local",
+      "adapterConfig": {
+        "model": "claude-opus-4-6",
+        "maxTurnsPerRun": 80,
+        "timeoutSec": 900,
+        "dangerouslySkipPermissions": true
+      },
+      "desiredSkills": [
+        "paperclip",
+        "gstack-bridge",
+        "gstack-autoplan",
+        "gstack-plan-ceo-review",
+        "gstack-office-hours"
+      ],
+      "heartbeat": { "schedule": "*/15 * * * *" }
+    },
+    {
+      "key": "cto",
+      "name": "CTO",
+      "role": "manager",
+      "title": "Chief Technology Officer",
+      "reportsTo": "ceo",
+      "capabilities": "Engineering management, code review, release management, technical planning",
+      "onboardingDir": "./onboarding/cto",
+      "adapterType": "claude_local",
+      "adapterConfig": {
+        "model": "claude-sonnet-4-6",
+        "maxTurnsPerRun": 150,
+        "timeoutSec": 1800,
+        "dangerouslySkipPermissions": true
+      },
+      "desiredSkills": [
+        "paperclip",
+        "gstack-bridge",
+        "gstack-plan-eng-review",
+        "gstack-review",
+        "gstack-ship"
+      ],
+      "heartbeat": { "schedule": "*/20 * * * *" }
+    },
+    {
+      "key": "senior-engineer",
+      "name": "SeniorEngineer",
+      "role": "ic",
+      "title": "Senior Software Engineer",
+      "reportsTo": "cto",
+      "capabilities": "Feature implementation, bug fixing, root-cause debugging, multi-AI second opinion",
+      "onboardingDir": "./onboarding/senior-engineer",
+      "adapterType": "claude_local",
+      "adapterConfig": {
+        "model": "claude-sonnet-4-6",
+        "maxTurnsPerRun": 200,
+        "timeoutSec": 1800,
+        "dangerouslySkipPermissions": true
+      },
+      "desiredSkills": [
+        "paperclip",
+        "gstack-bridge",
+        "gstack-investigate",
+        "gstack-codex"
+      ],
+      "heartbeat": { "schedule": "*/30 * * * *" }
+    },
+    {
+      "key": "release-engineer",
+      "name": "ReleaseEngineer",
+      "role": "ic",
+      "title": "Release Engineer",
+      "reportsTo": "cto",
+      "capabilities": "Merge, deploy, canary monitoring, release documentation, deploy setup",
+      "onboardingDir": "./onboarding/release-engineer",
+      "adapterType": "claude_local",
+      "adapterConfig": {
+        "model": "claude-sonnet-4-6",
+        "maxTurnsPerRun": 200,
+        "timeoutSec": 1800,
+        "dangerouslySkipPermissions": true
+      },
+      "desiredSkills": [
+        "paperclip",
+        "gstack-bridge",
+        "gstack-land-and-deploy",
+        "gstack-canary",
+        "gstack-document-release",
+        "gstack-setup-deploy"
+      ],
+      "heartbeat": { "schedule": "*/30 * * * *" }
+    },
+    {
+      "key": "devex-engineer",
+      "name": "DevExEngineer",
+      "role": "ic",
+      "title": "Developer Experience Engineer",
+      "reportsTo": "cto",
+      "capabilities": "DX reviews, plan DX review, retrospectives, performance benchmarking",
+      "onboardingDir": "./onboarding/devex-engineer",
+      "adapterType": "claude_local",
+      "adapterConfig": {
+        "model": "claude-sonnet-4-6",
+        "maxTurnsPerRun": 150,
+        "timeoutSec": 1200,
+        "dangerouslySkipPermissions": true
+      },
+      "desiredSkills": [
+        "paperclip",
+        "gstack-bridge",
+        "gstack-devex-review",
+        "gstack-plan-devex-review",
+        "gstack-retro",
+        "gstack-benchmark"
+      ],
+      "heartbeat": { "schedule": "0 * * * *" }
+    },
+    {
+      "key": "qa-lead",
+      "name": "QALead",
+      "role": "manager",
+      "title": "QA Lead",
+      "reportsTo": "ceo",
+      "capabilities": "Report-only QA oversight, bug triage, quality metrics",
+      "onboardingDir": "./onboarding/qa-lead",
+      "adapterType": "claude_local",
+      "adapterConfig": {
+        "model": "claude-sonnet-4-6",
+        "maxTurnsPerRun": 150,
+        "timeoutSec": 1200,
+        "dangerouslySkipPermissions": true
+      },
+      "desiredSkills": [
+        "paperclip",
+        "gstack-bridge",
+        "gstack-qa-only"
+      ],
+      "heartbeat": { "schedule": "0 */4 * * *" }
+    },
+    {
+      "key": "qa-engineer",
+      "name": "QAEngineer",
+      "role": "ic",
+      "title": "QA Engineer",
+      "reportsTo": "qa-lead",
+      "capabilities": "Full QA loop: find bugs, write tests, fix, verify. Atomic commits per fix.",
+      "onboardingDir": "./onboarding/qa-engineer",
+      "adapterType": "claude_local",
+      "adapterConfig": {
+        "model": "claude-sonnet-4-6",
+        "maxTurnsPerRun": 200,
+        "timeoutSec": 1800,
+        "dangerouslySkipPermissions": true
+      },
+      "desiredSkills": [
+        "paperclip",
+        "gstack-bridge",
+        "gstack-qa"
+      ],
+      "heartbeat": { "schedule": "*/30 * * * *" }
+    },
+    {
+      "key": "security-officer",
+      "name": "SecurityOfficer",
+      "role": "ic",
+      "title": "Chief Security Officer",
+      "reportsTo": "ceo",
+      "capabilities": "OWASP Top 10, STRIDE threat modeling, security audits, safety controls",
+      "onboardingDir": "./onboarding/security-officer",
+      "adapterType": "claude_local",
+      "adapterConfig": {
+        "model": "claude-sonnet-4-6",
+        "maxTurnsPerRun": 150,
+        "timeoutSec": 1200,
+        "dangerouslySkipPermissions": true
+      },
+      "desiredSkills": [
+        "paperclip",
+        "gstack-bridge",
+        "gstack-cso",
+        "gstack-careful",
+        "gstack-guard"
+      ],
+      "heartbeat": { "schedule": "0 */6 * * *" }
+    },
+    {
+      "key": "design-lead",
+      "name": "DesignLead",
+      "role": "ic",
+      "title": "Design Lead",
+      "reportsTo": "ceo",
+      "capabilities": "UI/UX review, design systems, design-to-HTML, visual exploration, plan design review",
+      "onboardingDir": "./onboarding/design-lead",
+      "adapterType": "claude_local",
+      "adapterConfig": {
+        "model": "claude-sonnet-4-6",
+        "maxTurnsPerRun": 150,
+        "timeoutSec": 1200,
+        "dangerouslySkipPermissions": true
+      },
+      "desiredSkills": [
+        "paperclip",
+        "gstack-bridge",
+        "gstack-design-review",
+        "gstack-design-html",
+        "gstack-design-consultation",
+        "gstack-design-shotgun",
+        "gstack-plan-design-review"
+      ],
+      "heartbeat": { "schedule": "*/30 * * * *" }
+    }
+  ]
+}
