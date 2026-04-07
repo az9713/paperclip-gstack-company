@@ -1,6 +1,6 @@
 # paperclip-gstack-company
 
-An autonomous AI engineering team that plans, codes, reviews, ships, and monitors production — built by combining two open-source systems: **[Paperclip](https://github.com/paperclip-ai/paperclip)** (multi-agent orchestration) and **[gstack](https://github.com/gstack-ai/gstack)** (engineering skill library).
+An autonomous AI engineering team that plans, codes, reviews, ships, and monitors production — built by combining two open-source systems: **[Paperclip](https://github.com/paperclipai/paperclip)** (multi-agent orchestration) and **[gstack](https://github.com/garrytan/gstack)** (engineering skill library).
 
 ---
 
@@ -10,7 +10,7 @@ This repository demonstrates three things:
 
 ### 1. Seamless Integration of Paperclip + gstack
 
-[Paperclip](https://github.com/paperclip-ai/paperclip) and [gstack](https://github.com/gstack-ai/gstack) were built independently. This project wires them together into a working 9-agent engineering team with zero modifications to either upstream codebase.
+[Paperclip](https://github.com/paperclipai/paperclip) and [gstack](https://github.com/garrytan/gstack) were built independently. This project wires them together into a working 9-agent engineering team with zero modifications to either upstream codebase.
 
 **Paperclip** provides the org chart: a company with named agents, roles, heartbeat schedules, an issue tracker, approval workflows, budget tracking, and a REST API. Each agent is a Claude Code subprocess that wakes on a cron schedule or when a task is assigned to it.
 
