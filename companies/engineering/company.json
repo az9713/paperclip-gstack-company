@@ -43,7 +43,7 @@
       "onboardingDir": "./onboarding/ceo",
       "adapterType": "claude_local",
       "adapterConfig": {
-        "model": "claude-haiku-3-20240307",
+        "model": "claude-haiku-4-5-20251001",
         "maxTurnsPerRun": 80,
         "timeoutSec": 900,
         "dangerouslySkipPermissions": true
@@ -51,9 +51,9 @@
       "desiredSkills": [
         "paperclip",
         "gstack-bridge",
-        "gstack-autoplan",
-        "gstack-plan-ceo-review",
-        "gstack-office-hours"
+        "autoplan",
+        "plan-ceo-review",
+        "office-hours"
       ],
       "heartbeat": { "schedule": "*/15 * * * *" }
     },
@@ -67,7 +67,7 @@
       "onboardingDir": "./onboarding/cto",
       "adapterType": "claude_local",
       "adapterConfig": {
-        "model": "claude-haiku-3-20240307",
+        "model": "claude-haiku-4-5-20251001",
         "maxTurnsPerRun": 150,
         "timeoutSec": 1800,
         "dangerouslySkipPermissions": true
@@ -75,9 +75,9 @@
       "desiredSkills": [
         "paperclip",
         "gstack-bridge",
-        "gstack-plan-eng-review",
-        "gstack-review",
-        "gstack-ship"
+        "plan-eng-review",
+        "review",
+        "ship"
       ],
       "heartbeat": { "schedule": "*/20 * * * *" }
     },
@@ -91,7 +91,7 @@
       "onboardingDir": "./onboarding/senior-engineer",
       "adapterType": "claude_local",
       "adapterConfig": {
-        "model": "claude-haiku-3-20240307",
+        "model": "claude-haiku-4-5-20251001",
         "maxTurnsPerRun": 200,
         "timeoutSec": 1800,
         "dangerouslySkipPermissions": true
@@ -99,8 +99,8 @@
       "desiredSkills": [
         "paperclip",
         "gstack-bridge",
-        "gstack-investigate",
-        "gstack-codex"
+        "investigate",
+        "codex"
       ],
       "heartbeat": { "schedule": "*/30 * * * *" }
     },
@@ -114,7 +114,7 @@
       "onboardingDir": "./onboarding/release-engineer",
       "adapterType": "claude_local",
       "adapterConfig": {
-        "model": "claude-haiku-3-20240307",
+        "model": "claude-haiku-4-5-20251001",
         "maxTurnsPerRun": 200,
         "timeoutSec": 1800,
         "dangerouslySkipPermissions": true
@@ -122,10 +122,10 @@
       "desiredSkills": [
         "paperclip",
         "gstack-bridge",
-        "gstack-land-and-deploy",
-        "gstack-canary",
-        "gstack-document-release",
-        "gstack-setup-deploy"
+        "land-and-deploy",
+        "canary",
+        "document-release",
+        "setup-deploy"
       ],
       "heartbeat": { "schedule": "*/30 * * * *" }
     },
@@ -139,7 +139,7 @@
       "onboardingDir": "./onboarding/devex-engineer",
       "adapterType": "claude_local",
       "adapterConfig": {
-        "model": "claude-haiku-3-20240307",
+        "model": "claude-haiku-4-5-20251001",
         "maxTurnsPerRun": 150,
         "timeoutSec": 1200,
         "dangerouslySkipPermissions": true
@@ -147,10 +147,10 @@
       "desiredSkills": [
         "paperclip",
         "gstack-bridge",
-        "gstack-devex-review",
-        "gstack-plan-devex-review",
-        "gstack-retro",
-        "gstack-benchmark"
+        "devex-review",
+        "plan-devex-review",
+        "retro",
+        "benchmark"
       ],
       "heartbeat": { "schedule": "0 * * * *" }
     },
@@ -164,7 +164,7 @@
       "onboardingDir": "./onboarding/qa-lead",
       "adapterType": "claude_local",
       "adapterConfig": {
-        "model": "claude-haiku-3-20240307",
+        "model": "claude-haiku-4-5-20251001",
         "maxTurnsPerRun": 150,
         "timeoutSec": 1200,
         "dangerouslySkipPermissions": true
@@ -172,7 +172,7 @@
       "desiredSkills": [
         "paperclip",
         "gstack-bridge",
-        "gstack-qa-only"
+        "qa-only"
       ],
       "heartbeat": { "schedule": "0 */4 * * *" }
     },
@@ -186,7 +186,7 @@
       "onboardingDir": "./onboarding/qa-engineer",
       "adapterType": "claude_local",
       "adapterConfig": {
-        "model": "claude-haiku-3-20240307",
+        "model": "claude-haiku-4-5-20251001",
         "maxTurnsPerRun": 200,
         "timeoutSec": 1800,
         "dangerouslySkipPermissions": true
@@ -194,7 +194,7 @@
       "desiredSkills": [
         "paperclip",
         "gstack-bridge",
-        "gstack-qa"
+        "qa"
       ],
       "heartbeat": { "schedule": "*/30 * * * *" }
     },
@@ -208,7 +208,7 @@
       "onboardingDir": "./onboarding/security-officer",
       "adapterType": "claude_local",
       "adapterConfig": {
-        "model": "claude-haiku-3-20240307",
+        "model": "claude-haiku-4-5-20251001",
         "maxTurnsPerRun": 150,
         "timeoutSec": 1200,
         "dangerouslySkipPermissions": true
@@ -216,9 +216,9 @@
       "desiredSkills": [
         "paperclip",
         "gstack-bridge",
-        "gstack-cso",
-        "gstack-careful",
-        "gstack-guard"
+        "cso",
+        "careful",
+        "guard"
       ],
       "heartbeat": { "schedule": "0 */6 * * *" }
     },
@@ -232,7 +232,7 @@
       "onboardingDir": "./onboarding/design-lead",
       "adapterType": "claude_local",
       "adapterConfig": {
-        "model": "claude-haiku-3-20240307",
+        "model": "claude-haiku-4-5-20251001",
         "maxTurnsPerRun": 150,
         "timeoutSec": 1200,
         "dangerouslySkipPermissions": true
@@ -240,11 +240,11 @@
       "desiredSkills": [
         "paperclip",
         "gstack-bridge",
-        "gstack-design-review",
-        "gstack-design-html",
-        "gstack-design-consultation",
-        "gstack-design-shotgun",
-        "gstack-plan-design-review"
+        "design-review",
+        "design-html",
+        "design-consultation",
+        "design-shotgun",
+        "plan-design-review"
       ],
       "heartbeat": { "schedule": "*/30 * * * *" }
     }

@@ -15,7 +15,7 @@ Before creating the agent, define:
 
 Example: adding a "Data Engineer" who analyzes production data and creates reports.
 
-- **Role:** `ic` (individual contributor)
+- **Role:** `engineer` (individual contributor)
 - **Reports to:** CTO
 - **Skills:** `/investigate` (for data investigation), a custom `/data-analysis` skill you will create
 - **Heartbeat:** every 2 hours (not urgent)
@@ -28,22 +28,24 @@ Assign skills from this list (all are already imported into the Engineering Comp
 
 | Skill key | What it does |
 |-----------|-------------|
-| `gstack-investigate` | Root-cause debugging |
-| `gstack-codex` | Multi-AI second opinion |
-| `gstack-review` | Code review |
-| `gstack-ship` | Version bump + PR creation |
-| `gstack-qa` | Full QA loop |
-| `gstack-qa-only` | Report-only QA |
-| `gstack-cso` | Security audit |
-| `gstack-careful` | Careful mode |
-| `gstack-benchmark` | Performance benchmarking |
-| `gstack-retro` | Retrospective |
-| `gstack-devex-review` | DX audit |
-| `gstack-land-and-deploy` | Deploy pipeline |
-| `gstack-canary` | Post-deploy monitoring |
-| `gstack-document-release` | Release documentation |
-| `gstack-design-review` | Design audit |
-| `gstack-design-html` | Design to HTML |
+| `investigate` | Root-cause debugging |
+| `codex` | Multi-AI second opinion |
+| `review` | Code review |
+| `ship` | Version bump + PR creation |
+| `qa` | Full QA loop |
+| `qa-only` | Report-only QA |
+| `cso` | Security audit |
+| `careful` | Careful mode |
+| `benchmark` | Performance benchmarking |
+| `retro` | Retrospective |
+| `devex-review` | DX audit |
+| `land-and-deploy` | Deploy pipeline |
+| `canary` | Post-deploy monitoring |
+| `document-release` | Release documentation |
+| `design-review` | Design audit |
+| `design-html` | Design to HTML |
+
+> **Key naming:** gstack skills are imported with bare slugs (no `gstack-` prefix). Only `gstack-bridge` keeps the prefix — it is sourced from `companies/engineering/skills/`, not from `gstack/`.
 
 Always include:
 - `paperclip` — the Paperclip API skill (teaches the agent how to interact with Paperclip)
@@ -164,13 +166,13 @@ curl -X POST http://localhost:3100/api/companies/<COMPANY_ID>/agents \
   -H "Content-Type: application/json" \
   -d '{
     "name": "DataEngineer",
-    "role": "ic",
+    "role": "engineer",
     "title": "Data Engineer",
     "reportsTo": "<CTO_ID>",
     "capabilities": "Data pipeline analysis, production data investigation, anomaly detection, data quality reporting",
     "adapterType": "claude_local",
     "adapterConfig": {
-      "model": "claude-sonnet-4-6",
+      "model": "claude-haiku-4-5-20251001",
       "maxTurnsPerRun": 150,
       "timeoutSec": 1200,
       "dangerouslySkipPermissions": true,
@@ -182,7 +184,7 @@ curl -X POST http://localhost:3100/api/companies/<COMPANY_ID>/agents \
         "desiredSkills": [
           "paperclip",
           "gstack-bridge",
-          "gstack-investigate",
+          "investigate",
           "my-custom-skill"
         ]
       }
@@ -214,14 +216,14 @@ To make the agent configuration reproducible, add the agent definition to `compa
 {
   "key": "data-engineer",
   "name": "DataEngineer",
-  "role": "ic",
+  "role": "engineer",
   "title": "Data Engineer",
   "reportsTo": "cto",
   "capabilities": "Data pipeline analysis, production data investigation, anomaly detection, data quality reporting",
   "onboardingDir": "./onboarding/data-engineer",
   "adapterType": "claude_local",
   "adapterConfig": {
-    "model": "claude-sonnet-4-6",
+    "model": "claude-haiku-4-5-20251001",
     "maxTurnsPerRun": 150,
     "timeoutSec": 1200,
     "dangerouslySkipPermissions": true
@@ -229,7 +231,7 @@ To make the agent configuration reproducible, add the agent definition to `compa
   "desiredSkills": [
     "paperclip",
     "gstack-bridge",
-    "gstack-investigate",
+    "investigate",
     "my-custom-skill"
   ],
   "heartbeat": { "schedule": "0 */2 * * *" }

@@ -41,6 +41,7 @@ This repository combines three systems into a fully autonomous engineering team:
 | [Handle Approvals](guides/handle-approvals.md) | Find pending approvals, read checkpoint questions, approve or reject, understand what happens next. |
 | [Add a New Agent](guides/add-a-new-agent.md) | Add an agent to the engineering company: pick a role, choose skills, write onboarding docs, register, verify. |
 | [Add a Custom Skill](guides/add-a-custom-skill.md) | Write a SKILL.md, import it into a company, assign it to an agent, and test it. |
+| [E2E Testing with Browser Automation](guides/e2e-testing-with-browser-automation.md) | Use chrome-devtools MCP and claude-in-chrome to test the Paperclip UI: navigate pages, read accessibility trees, click elements, capture screenshots, and verify agent delegation chains. |
 
 ### Reference
 

@@ -48,7 +48,7 @@ Progress: resolved 842, reused 820, downloaded 22, added 22, done
 **Time: ~30 seconds**
 
 ```bash
-pnpm dev
+pnpm dev:server
 ```
 
 Expected output:
@@ -61,7 +61,9 @@ Expected output:
 
 > **Note:** The server uses an embedded PostgreSQL database that starts automatically. No external database configuration is required.
 
-> **Port conflict:** If port 3100 is in use, set `PORT=<other>` in your environment before running `pnpm dev`. Update `PAPERCLIP_URL` in Step 6 accordingly.
+> **Windows note:** Use `pnpm dev:server` instead of `pnpm dev`. On Windows, `pnpm dev` hangs after database migrations. `pnpm dev:server` starts only the server process and works correctly.
+
+> **Port conflict:** If port 3100 is in use, set `PORT=<other>` in your environment before running `pnpm dev:server`. Update `PAPERCLIP_URL` in Step 6 accordingly.
 
 Leave this terminal running. Open a new terminal for the remaining steps.
 
@@ -110,6 +112,34 @@ If you get `connection refused`, the Paperclip server is not running. Go back to
 
 ---
 
+## Step 5b — Isolate agent Claude config (required if you have Claude Code plugins)
+
+**Time: ~1 minute**
+
+If you have any Claude Code plugins installed (check with `claude plugins list`), they will inject hooks into every agent subprocess and override the agent's instructions. This causes agents to ignore AGENTS.md and use banned tools instead of the Paperclip API.
+
+To prevent this, create a clean, plugin-free config directory for agents:
+
+```bash
+mkdir -p ~/.claude-paperclip
+cp ~/.claude/.credentials.json ~/.claude-paperclip/.credentials.json
+```
+
+After provisioning (Step 6), set `CLAUDE_CONFIG_DIR` on each agent:
+
+```bash
+# Run for each agent ID from the setup.sh output:
+curl -X PATCH http://localhost:3100/api/agents/<AGENT_ID> \
+  -H "Content-Type: application/json" \
+  -d '{"adapterConfig": {"env": {"CLAUDE_CONFIG_DIR": "/home/<you>/.claude-paperclip"}}}'
+```
+
+If you have no plugins installed (`claude plugins list` returns an empty list), skip this step.
+
+> **Why:** Plugin `SessionStart` hooks fire before AGENTS.md is read and replace the Paperclip protocol with the plugin's workflow. `CLAUDE_CONFIG_DIR` pointing to a no-plugin directory prevents this. See [Common Issues #11](../troubleshooting/common-issues.md#11-agent-ignores-agentsmd--uses-teamcreate--sendmessage--todowrite-instead-of-curl).
+
+---
+
 ## Step 6 — Provision the Engineering Company
 
 **Time: ~1 minute**
@@ -130,8 +160,8 @@ Expected output:
     Company ID: <uuid>
 
 --> Step 2: Import gstack skills
-      + gstack-autoplan
-      + gstack-plan-ceo-review
+      + autoplan
+      + plan-ceo-review
       [... 26 more skills ...]
 
 --> Step 3: Import gstack-bridge skill

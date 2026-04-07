@@ -191,9 +191,12 @@ Read the `gstack-bridge` skill before invoking any gstack skill.
 
 ## 8. Skill import fails — path not found
 
-**Symptom:** `POST /api/companies/{id}/skills/import` returns `400` or `404` with an error about the source path not being found.
+**Symptom:** `POST /api/companies/{id}/skills/import` returns `400`, `404`, or a silent `500` with an error about the source path not being found (or no error at all).
 
-**Cause:** The `source` path in the import request is not an absolute path, the directory does not exist, or the directory does not contain a `SKILL.md` file.
+**Cause:** One of:
+- The `source` path is not an absolute path
+- The directory does not exist or does not contain a `SKILL.md` file
+- **Windows only:** The `source` path uses backslashes (`C:\Users\...`) instead of forward slashes (`C:/Users/...`)
 
 **Fix:**
 
@@ -205,6 +208,17 @@ Ensure the path is absolute:
 # This will work:
 {"source": "/absolute/path/to/gstack/review"}
 ```
+
+**Windows:** The API requires forward-slash paths. Backslash paths cause a silent 500 — the request body is never logged because the error occurs before Express processes it. Use `cygpath -m` (not `cygpath -w`) to convert paths:
+```bash
+# Correct (forward slashes):
+{"source": "C:/Users/you/gstack_paperclip/gstack/review"}
+
+# Wrong (backslashes — silent 500):
+{"source": "C:\\Users\\you\\gstack_paperclip\\gstack\\review"}
+```
+
+The `setup.sh` script already uses `cygpath -m` internally. If you are calling the API directly from PowerShell or cmd, ensure you are sending forward slashes.
 
 Verify the skill directory exists and has a SKILL.md:
 ```bash
@@ -265,6 +279,61 @@ If the agent is looping, add context to the task as a comment:
 curl -X POST http://localhost:3100/api/issues/<ISSUE_ID>/comments \
   -H "Content-Type: application/json" \
   -d '{"body": "Note: The tests are expected to fail on the current main branch (known issue). Proceed with the fix even if tests fail."}'
+```
+
+---
+
+## 11. Agent ignores AGENTS.md — uses TeamCreate / SendMessage / TodoWrite instead of curl
+
+**Symptom:** An agent run creates `TeamCreate`, `SendMessage`, or `TodoWrite` calls instead of using `curl` to call the Paperclip REST API. The agent may hallucinate a todo list, fabricate subtasks, or call tools that are explicitly banned in AGENTS.md. Even when AGENTS.md says "NEVER use TeamCreate", the agent does it anyway.
+
+**Cause — Claude plugin hooking (most common):** If your local Claude Code installation has a plugin (e.g. `superpowers@superpowers-marketplace`), the plugin injects a `SessionStart` hook into every subprocess, including agent subprocesses. This hook fires before AGENTS.md is read and overrides the agent's instructions, replacing the Paperclip protocol with the plugin's own workflow.
+
+**Fix (plugin isolation):**
+
+Create a clean, plugin-free Claude config directory:
+```bash
+mkdir -p ~/.claude-paperclip
+cp ~/.claude/.credentials.json ~/.claude-paperclip/.credentials.json
+```
+
+Then set `CLAUDE_CONFIG_DIR` on each agent via `PATCH /api/agents/:id`:
+```bash
+curl -X PATCH http://localhost:3100/api/agents/<AGENT_ID> \
+  -H "Content-Type: application/json" \
+  -d '{"adapterConfig": {"env": {"CLAUDE_CONFIG_DIR": "/home/<you>/.claude-paperclip"}}}'
+```
+
+Verify it worked: in the agent's next run log, confirm you see `"plugins": []` in the init output (not a list of installed plugins).
+
+> **Note:** `~/.claude-paperclip/.credentials.json` is a copy, not a symlink. It will become stale when your OAuth token refreshes. If agents start failing with auth errors, re-copy the credentials file.
+
+**Cause — Weak model:** `claude-3-haiku-20240307` does not follow multi-step AGENTS.md instructions reliably. It ignores "DO NOT use TeamCreate" and falls back to instinctive behavior. Use `claude-haiku-4-5-20251001` or higher.
+
+**Fix (model):**
+```bash
+curl -X PATCH http://localhost:3100/api/agents/<AGENT_ID> \
+  -H "Content-Type: application/json" \
+  -d '{"adapterConfig": {"model": "claude-haiku-4-5-20251001"}}'
+```
+
+---
+
+## 12. `PATCH /api/companies/:companyId/agents/:id` returns 404
+
+**Symptom:** Calling `PATCH /api/companies/<id>/agents/<agentId>` to update an agent returns `404 Not Found`.
+
+**Cause:** The agent update endpoint does not include the company ID in the path.
+
+**Fix:** Use `/api/agents/:id` (without the company prefix):
+```bash
+# Wrong — 404:
+curl -X PATCH http://localhost:3100/api/companies/<COMPANY_ID>/agents/<AGENT_ID> ...
+
+# Correct:
+curl -X PATCH http://localhost:3100/api/agents/<AGENT_ID> \
+  -H "Content-Type: application/json" \
+  -d '{"adapterConfig": {"model": "claude-haiku-4-5-20251001"}}'
 ```
 
 ---

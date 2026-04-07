@@ -36,15 +36,15 @@ The solution is the **`gstack-bridge` skill** (`companies/engineering/skills/gst
 
 ```
 Human (Board Operator)
-└── CEO                  (claude-opus-4-6, every 15 min)
-    ├── CTO              (claude-sonnet-4-6, every 20 min)
-    │   ├── SeniorEngineer    (claude-sonnet-4-6, every 30 min)
-    │   ├── ReleaseEngineer   (claude-sonnet-4-6, every 30 min)
-    │   └── DevExEngineer     (claude-sonnet-4-6, hourly)
-    ├── QALead           (claude-sonnet-4-6, every 4 hours)
-    │   └── QAEngineer        (claude-sonnet-4-6, every 30 min)
-    ├── SecurityOfficer  (claude-sonnet-4-6, every 6 hours)
-    └── DesignLead       (claude-sonnet-4-6, every 30 min)
+└── CEO                  (claude-haiku-4-5-20251001, every 15 min)
+    ├── CTO              (claude-haiku-4-5-20251001, every 20 min)
+    │   ├── SeniorEngineer    (claude-haiku-4-5-20251001, every 30 min)
+    │   ├── ReleaseEngineer   (claude-haiku-4-5-20251001, every 30 min)
+    │   └── DevExEngineer     (claude-haiku-4-5-20251001, hourly)
+    ├── QALead           (claude-haiku-4-5-20251001, every 4 hours)
+    │   └── QAEngineer        (claude-haiku-4-5-20251001, every 30 min)
+    ├── SecurityOfficer  (claude-haiku-4-5-20251001, every 6 hours)
+    └── DesignLead       (claude-haiku-4-5-20251001, every 30 min)
 ```
 
 | Agent | gstack Skills |

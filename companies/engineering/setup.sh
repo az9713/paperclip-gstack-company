@@ -12,7 +12,7 @@
 
 set -euo pipefail
 
-PAPERCLIP_URL="${PAPERCLIP_URL:-http://localhost:4040}"
+PAPERCLIP_URL="${PAPERCLIP_URL:-http://localhost:3100}"
 API="${PAPERCLIP_URL}/api"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 GSTACK_DIR="$(cd "${SCRIPT_DIR}/../../gstack" && pwd)"
@@ -195,7 +195,7 @@ EOF
   result=$(api_post "/companies/${COMPANY_ID}/agents" "${body}")
   local agent_id
   agent_id=$(echo "${result}" | jq -r '.id')
-  echo "    Created ${name} (${agent_id})"
+  echo "    Created ${name} (${agent_id})" >&2
   echo "${agent_id}"
 }
 
@@ -203,64 +203,64 @@ EOF
 CEO_ID=$(create_agent \
   "CEO" "ceo" "Chief Executive Officer" "" \
   "Strategic planning, task delegation, cross-functional coordination, plan review at CEO level" \
-  "claude-haiku-3-20240307" 80 900 "*/15 * * * *" \
-  paperclip gstack-bridge gstack-autoplan gstack-plan-ceo-review gstack-office-hours)
+  "claude-haiku-4-5-20251001" 80 900 "*/15 * * * *" \
+  paperclip gstack-bridge autoplan plan-ceo-review office-hours)
 
 # CTO (reports to CEO)
 CTO_ID=$(create_agent \
   "CTO" "cto" "Chief Technology Officer" "${CEO_ID}" \
   "Engineering management, code review, release management, technical planning" \
-  "claude-haiku-3-20240307" 150 1800 "*/20 * * * *" \
-  paperclip gstack-bridge gstack-plan-eng-review gstack-review gstack-ship)
+  "claude-haiku-4-5-20251001" 150 1800 "*/20 * * * *" \
+  paperclip gstack-bridge plan-eng-review review ship)
 
 # QA Lead (reports to CEO)
 QA_LEAD_ID=$(create_agent \
   "QALead" "qa" "QA Lead" "${CEO_ID}" \
   "Report-only QA oversight, bug triage, quality metrics" \
-  "claude-haiku-3-20240307" 150 1200 "0 */4 * * *" \
-  paperclip gstack-bridge gstack-qa-only)
+  "claude-haiku-4-5-20251001" 150 1200 "0 */4 * * *" \
+  paperclip gstack-bridge qa-only)
 
 # Security Officer (reports to CEO)
 SECURITY_ID=$(create_agent \
   "SecurityOfficer" "general" "Chief Security Officer" "${CEO_ID}" \
   "OWASP Top 10, STRIDE threat modeling, security audits, safety controls" \
-  "claude-haiku-3-20240307" 150 1200 "0 */6 * * *" \
-  paperclip gstack-bridge gstack-cso gstack-careful gstack-guard)
+  "claude-haiku-4-5-20251001" 150 1200 "0 */6 * * *" \
+  paperclip gstack-bridge cso careful guard)
 
 # Design Lead (reports to CEO)
 DESIGN_ID=$(create_agent \
   "DesignLead" "designer" "Design Lead" "${CEO_ID}" \
   "UI/UX review, design systems, design-to-HTML, visual exploration, plan design review" \
-  "claude-haiku-3-20240307" 150 1200 "*/30 * * * *" \
-  paperclip gstack-bridge gstack-design-review gstack-design-html gstack-design-consultation gstack-design-shotgun gstack-plan-design-review)
+  "claude-haiku-4-5-20251001" 150 1200 "*/30 * * * *" \
+  paperclip gstack-bridge design-review design-html design-consultation design-shotgun plan-design-review)
 
 # Senior Engineer (reports to CTO)
 SENIOR_ENG_ID=$(create_agent \
   "SeniorEngineer" "engineer" "Senior Software Engineer" "${CTO_ID}" \
   "Feature implementation, bug fixing, root-cause debugging, multi-AI second opinion" \
-  "claude-haiku-3-20240307" 200 1800 "*/30 * * * *" \
-  paperclip gstack-bridge gstack-investigate gstack-codex)
+  "claude-haiku-4-5-20251001" 200 1800 "*/30 * * * *" \
+  paperclip gstack-bridge investigate codex)
 
 # Release Engineer (reports to CTO)
 RELEASE_ENG_ID=$(create_agent \
   "ReleaseEngineer" "devops" "Release Engineer" "${CTO_ID}" \
   "Merge, deploy, canary monitoring, release documentation, deploy setup" \
-  "claude-haiku-3-20240307" 200 1800 "*/30 * * * *" \
-  paperclip gstack-bridge gstack-land-and-deploy gstack-canary gstack-document-release gstack-setup-deploy)
+  "claude-haiku-4-5-20251001" 200 1800 "*/30 * * * *" \
+  paperclip gstack-bridge land-and-deploy canary document-release setup-deploy)
 
 # DevEx Engineer (reports to CTO)
 DEVEX_ID=$(create_agent \
   "DevExEngineer" "engineer" "Developer Experience Engineer" "${CTO_ID}" \
   "DX reviews, plan DX review, retrospectives, performance benchmarking" \
-  "claude-haiku-3-20240307" 150 1200 "0 * * * *" \
-  paperclip gstack-bridge gstack-devex-review gstack-plan-devex-review gstack-retro gstack-benchmark)
+  "claude-haiku-4-5-20251001" 150 1200 "0 * * * *" \
+  paperclip gstack-bridge devex-review plan-devex-review retro benchmark)
 
 # QA Engineer (reports to QA Lead)
 QA_ENG_ID=$(create_agent \
   "QAEngineer" "qa" "QA Engineer" "${QA_LEAD_ID}" \
   "Full QA loop: find bugs, write tests, fix, verify. Atomic commits per fix." \
-  "claude-haiku-3-20240307" 200 1800 "*/30 * * * *" \
-  paperclip gstack-bridge gstack-qa)
+  "claude-haiku-4-5-20251001" 200 1800 "*/30 * * * *" \
+  paperclip gstack-bridge qa)
 
 # ─────────────────────────────────────────────
 # Done

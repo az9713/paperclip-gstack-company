@@ -11,7 +11,6 @@ description: >
 
 You are running **gstack engineering skills inside Paperclip's headless orchestration**. This changes how you handle interactive checkpoints and cross-role handoffs. Read this skill completely before invoking any gstack skill.
 
----
 
 ## Step 0: Confirm Paperclip Mode
 
@@ -43,6 +42,8 @@ Read the Paperclip wake context:
 
 ## Step 2: Select the Correct gstack Skill
 
+**CEO agents: skip this step entirely.** The CEO delegates — it does not run gstack skills directly (except `/autoplan`, `/plan-ceo-review`, and `/office-hours`). If you are the CEO and the task is not a planning/strategy task, go to your `AGENTS.md` delegation rules to route it to the right agent. Do not try to run `/investigate`, `/review`, `/ship`, or any other skill not in your skill list.
+
 Map the issue to the appropriate gstack skill using these signals (in priority order):
 
 1. **Explicit command in issue title or description** — if the issue says "run /review" or "/ship", use that
@@ -71,7 +72,9 @@ Map the issue to the appropriate gstack skill using these signals (in priority o
 | "benchmark", "performance regression" | `/benchmark` |
 | "document release", "release notes" | `/document-release` |
 
-If no skill matches clearly, post a comment asking the board for clarification and set issue to `blocked`.
+If no skill matches clearly and you are NOT the CEO: post a comment asking the board for clarification and set issue to `blocked`.
+
+If you are the CEO: delegate to the appropriate agent per your `AGENTS.md` delegation rules — do not block, delegate.
 
 ---
 

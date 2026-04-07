@@ -8,18 +8,18 @@ The Engineering Company template (`companies/engineering/`) defines a 9-agent au
 
 ```
 Human (Board Operator)
-└── CEO (claude-opus-4-6, every 15 min)
-    ├── CTO (claude-sonnet-4-6, every 20 min)
-    │   ├── SeniorEngineer (claude-sonnet-4-6, every 30 min)
-    │   ├── ReleaseEngineer (claude-sonnet-4-6, every 30 min)
-    │   └── DevExEngineer (claude-sonnet-4-6, hourly)
-    ├── QALead (claude-sonnet-4-6, every 4 hours)
-    │   └── QAEngineer (claude-sonnet-4-6, every 30 min)
-    ├── SecurityOfficer (claude-sonnet-4-6, every 6 hours)
-    └── DesignLead (claude-sonnet-4-6, every 30 min)
+└── CEO (claude-haiku-4-5-20251001, every 15 min)
+    ├── CTO (claude-haiku-4-5-20251001, every 20 min)
+    │   ├── SeniorEngineer (claude-haiku-4-5-20251001, every 30 min)
+    │   ├── ReleaseEngineer (claude-haiku-4-5-20251001, every 30 min)
+    │   └── DevExEngineer (claude-haiku-4-5-20251001, hourly)
+    ├── QALead (claude-haiku-4-5-20251001, every 4 hours)
+    │   └── QAEngineer (claude-haiku-4-5-20251001, every 30 min)
+    ├── SecurityOfficer (claude-haiku-4-5-20251001, every 6 hours)
+    └── DesignLead (claude-haiku-4-5-20251001, every 30 min)
 ```
 
-The CEO uses `claude-opus-4-6` (the most capable model) because it makes the highest-stakes decisions: what to build, who to assign it to, and when to escalate to the human. All other agents use `claude-sonnet-4-6`, which balances capability and cost for implementation-focused work.
+All agents use `claude-haiku-4-5-20251001`. End-to-end testing confirmed that `claude-haiku-4-5-20251001` reliably follows multi-step Paperclip protocol (reading env vars, using curl, delegating via subtasks). Earlier `claude-3-haiku-20240307` was insufficient — it ignored AGENTS.md instructions and fell back to banned tools. Haiku 4.5 offers strong instruction-following at low cost.
 
 ---
 
@@ -29,7 +29,7 @@ The CEO uses `claude-opus-4-6` (the most capable model) because it makes the hig
 
 **Skills:** `/autoplan`, `/plan-ceo-review`, `/office-hours`
 **Heartbeat:** every 15 minutes
-**Model:** claude-opus-4-6 (80 max turns, 15 min timeout)
+**Model:** claude-haiku-4-5-20251001 (80 max turns, 15 min timeout)
 
 The CEO is the entry point for all tasks. It does not write code or run engineering commands. Its job is to triage incoming work, identify which specialists should handle each part, create subtasks, and monitor progress.
 
@@ -37,13 +37,13 @@ When a task requires strategic planning (e.g., "Build a new user onboarding flow
 
 For plan review tasks (e.g., a human sends a spec doc for review), the CEO runs `/plan-ceo-review` — a CEO-level strategic review that checks ambition, scope, user value, and completeness.
 
-The CEO uses Opus because it needs to make nuanced routing decisions. A misrouted task costs hours of agent time on heartbeat delays.
+The CEO's 15-minute heartbeat minimizes cascade delays — a slow CEO delays every downstream agent by the same amount.
 
 ### CTO
 
 **Skills:** `/plan-eng-review`, `/review`, `/ship`
 **Heartbeat:** every 20 minutes
-**Model:** claude-sonnet-4-6 (150 max turns, 30 min timeout)
+**Model:** claude-haiku-4-5-20251001 (150 max turns, 30 min timeout)
 
 The CTO owns engineering execution: code review, release management, and coordination of the engineering ICs. It never writes code directly — it reviews, ships, and delegates.
 
@@ -61,7 +61,7 @@ The CTO's `maxTurnsPerRun: 150` reflects that review + ship workflows can be inv
 
 **Skills:** `/investigate`, `/codex`
 **Heartbeat:** every 30 minutes
-**Model:** claude-sonnet-4-6 (200 max turns, 30 min timeout)
+**Model:** claude-haiku-4-5-20251001 (200 max turns, 30 min timeout)
 
 The SeniorEngineer handles feature implementation and bug fixing. It has the highest `maxTurnsPerRun` (200) because implementation work can require many read-write-test cycles.
 
@@ -75,7 +75,7 @@ After implementation, SeniorEngineer marks its task `in_review` and posts a comm
 
 **Skills:** `/land-and-deploy`, `/canary`, `/document-release`, `/setup-deploy`
 **Heartbeat:** every 30 minutes
-**Model:** claude-sonnet-4-6 (200 max turns, 30 min timeout)
+**Model:** claude-haiku-4-5-20251001 (200 max turns, 30 min timeout)
 
 The ReleaseEngineer handles all deployment operations. It never writes application code — it merges PRs, deploys them, monitors canary deployments, and updates release documentation.
 
@@ -91,7 +91,7 @@ The ReleaseEngineer handles all deployment operations. It never writes applicati
 
 **Skills:** `/devex-review`, `/plan-devex-review`, `/retro`, `/benchmark`
 **Heartbeat:** hourly
-**Model:** claude-sonnet-4-6 (150 max turns, 20 min timeout)
+**Model:** claude-haiku-4-5-20251001 (150 max turns, 20 min timeout)
 
 The DevExEngineer focuses on developer experience quality: how easy is it for developers to work in this codebase? It runs less frequently (hourly) because its work is scheduled rather than reactive.
 
@@ -105,7 +105,7 @@ The DevExEngineer focuses on developer experience quality: how easy is it for de
 
 **Skills:** `/qa-only`
 **Heartbeat:** every 4 hours
-**Model:** claude-sonnet-4-6 (150 max turns, 20 min timeout)
+**Model:** claude-haiku-4-5-20251001 (150 max turns, 20 min timeout)
 
 The QALead runs `report-only` quality assurance. It finds and documents bugs without fixing them. Its output is a structured bug report which becomes the basis for QAEngineer subtasks.
 
@@ -117,7 +117,7 @@ The 4-hour heartbeat reflects that QA sweeps are relatively infrequent — the t
 
 **Skills:** `/qa`
 **Heartbeat:** every 30 minutes
-**Model:** claude-sonnet-4-6 (200 max turns, 30 min timeout)
+**Model:** claude-haiku-4-5-20251001 (200 max turns, 30 min timeout)
 
 The QAEngineer handles the full QA loop: find bugs, write regression tests, fix them, verify. The `/qa` skill is atomic — each bug gets its own commit. The QAEngineer checks out a task (one bug), fixes it, verifies the fix, commits, and moves to the next.
 
@@ -129,7 +129,7 @@ The bridge skill creates one approval checkpoint in `/qa`: if the "WTF-likelihoo
 
 **Skills:** `/cso`, `/careful`, `/guard`
 **Heartbeat:** every 6 hours
-**Model:** claude-sonnet-4-6 (150 max turns, 20 min timeout)
+**Model:** claude-haiku-4-5-20251001 (150 max turns, 20 min timeout)
 
 The SecurityOfficer runs security audits and can activate enhanced safety modes. It runs every 6 hours because security sweeps are scheduled, not reactive.
 
@@ -143,7 +143,7 @@ The SecurityOfficer runs security audits and can activate enhanced safety modes.
 
 **Skills:** `/design-review`, `/design-html`, `/design-consultation`, `/design-shotgun`, `/plan-design-review`
 **Heartbeat:** every 30 minutes
-**Model:** claude-sonnet-4-6 (150 max turns, 20 min timeout)
+**Model:** claude-haiku-4-5-20251001 (150 max turns, 20 min timeout)
 
 The DesignLead handles all UI/UX work. It reviews designs, converts mockups to HTML, creates design systems, and explores visual directions.
 

@@ -86,14 +86,14 @@ POST /api/companies/{COMPANY_ID}/agents
   "capabilities": "...",
   "adapterType": "claude_local",
   "adapterConfig": {
-    "model": "claude-opus-4-6",
+    "model": "claude-haiku-4-5-20251001",
     "maxTurnsPerRun": 80,
     "timeoutSec": 900,
     "dangerouslySkipPermissions": true,
     "onboardingDir": "/absolute/path/to/onboarding/ceo",
     "heartbeat": { "schedule": "*/15 * * * *" },
     "paperclipSkillSync": {
-      "desiredSkills": ["paperclip", "gstack-bridge", "gstack-autoplan", ...]
+      "desiredSkills": ["paperclip", "gstack-bridge", "autoplan", ...]
     }
   }
 }
@@ -124,14 +124,14 @@ Expected output:
 ```json
 [
   { "name": "CEO", "role": "ceo" },
-  { "name": "CTO", "role": "manager" },
-  { "name": "SeniorEngineer", "role": "ic" },
-  { "name": "ReleaseEngineer", "role": "ic" },
-  { "name": "DevExEngineer", "role": "ic" },
-  { "name": "QALead", "role": "manager" },
-  { "name": "QAEngineer", "role": "ic" },
-  { "name": "SecurityOfficer", "role": "ic" },
-  { "name": "DesignLead", "role": "ic" }
+  { "name": "CTO", "role": "cto" },
+  { "name": "SeniorEngineer", "role": "engineer" },
+  { "name": "ReleaseEngineer", "role": "devops" },
+  { "name": "DevExEngineer", "role": "engineer" },
+  { "name": "QALead", "role": "qa" },
+  { "name": "QAEngineer", "role": "qa" },
+  { "name": "SecurityOfficer", "role": "general" },
+  { "name": "DesignLead", "role": "designer" }
 ]
 ```
 
@@ -141,7 +141,9 @@ Expected output:
 curl -s "http://localhost:3100/api/companies/<COMPANY_ID>/skills" | jq '[.[] | .key]'
 ```
 
-Expected: a JSON array containing `gstack-autoplan`, `gstack-review`, `gstack-bridge`, `gstack-qa`, and 25+ other skill keys.
+Expected: a JSON array containing `autoplan`, `review`, `gstack-bridge`, `qa`, and 25+ other skill keys.
+
+> **Note on skill key naming:** gstack skills are imported with their bare slug (e.g., `autoplan`, `review`, `qa`). Only `gstack-bridge` retains the `gstack-` prefix because it is sourced from `companies/engineering/skills/` rather than the `gstack/` directory. Use the bare slug when referencing gstack skills in `desiredSkills`.
 
 ### Open the Web UI
 
@@ -170,10 +172,12 @@ Alternatively, if you want to add agents or skills to an existing company withou
 The Paperclip server is not running. Start it:
 ```bash
 cd paperclip
-pnpm dev
+pnpm dev:server
 ```
 
 Wait for `Server listening on http://localhost:3100` before re-running setup.
+
+> **Windows note:** Use `pnpm dev:server` instead of `pnpm dev`. On Windows, `pnpm dev` hangs after running database migrations because the watch process does not exit cleanly. `pnpm dev:server` starts only the server process and works correctly.
 
 ### Failure: `jq: command not found`
 
@@ -212,6 +216,7 @@ Common causes:
 - The skill directory does not contain a valid `SKILL.md` with frontmatter
 - The API server is running but the skills endpoint returned a 4xx error (check for validation issues)
 - The `source` path contains spaces that break the JSON — verify your absolute paths
+- **Windows:** The `source` path uses backslashes (`C:\Users\...`) instead of forward slashes (`C:/Users/...`). The Paperclip skill import API requires forward-slash paths on Windows. The `setup.sh` script uses `cygpath -m` to convert paths — verify it is producing `C:/` style paths and not `C:\` style paths.
 
 ### Agents created but skills show as "missing" in the UI
 

@@ -70,7 +70,7 @@ Each entry defines an agent to create in the company.
 |-------|------|----------|-------------|
 | `key` | string | Yes | Unique identifier for the agent within `company.json`. Used for `reportsTo` cross-references. Kebab-case. Example: `"senior-engineer"` |
 | `name` | string | Yes | Display name in Paperclip UI. PascalCase or plain. Example: `"SeniorEngineer"` |
-| `role` | string | Yes | Functional role category. One of: `ceo`, `cto`, `cmo`, `cfo`, `engineer`, `designer`, `pm`, `qa`, `devops`, `researcher`, `general`, `manager`, `ic` |
+| `role` | string | Yes | Functional role category. One of: `ceo`, `cto`, `cmo`, `cfo`, `engineer`, `designer`, `pm`, `qa`, `devops`, `researcher`, `general` |
 | `title` | string | Yes | Human-readable job title. Example: `"Senior Software Engineer"` |
 | `reportsTo` | string | No | The `key` of the agent this agent reports to. Null/omitted for the root agent (CEO). Example: `"cto"` |
 | `capabilities` | string | Yes | Free-text description of what this agent can do. Used as context in task routing decisions. |
@@ -84,7 +84,7 @@ Each entry defines an agent to create in the company.
 
 | Field | Type | Required | Default | Description |
 |-------|------|----------|---------|-------------|
-| `model` | string | No | `"claude-sonnet-4-6"` | Claude model ID to use for this agent. Options: `claude-opus-4-6`, `claude-sonnet-4-6`, `claude-haiku-4-6` |
+| `model` | string | No | `"claude-haiku-4-5-20251001"` | Claude model ID to use for this agent. Options: `claude-haiku-4-5-20251001` (default, lowest cost), `claude-sonnet-4-6` (balanced), `claude-opus-4-6` (highest capability) |
 | `maxTurnsPerRun` | number | No | 0 (unlimited) | Maximum number of Claude turns in a single run. Prevents runaway loops. |
 | `timeoutSec` | number | No | 0 (no timeout) | Maximum wall-clock seconds for a run before it is killed. |
 | `dangerouslySkipPermissions` | boolean | No | `true` | Pass `--dangerously-skip-permissions` to Claude. Required for headless operation — without it, Claude will prompt for permission and the run will hang. |
@@ -112,14 +112,14 @@ Each entry defines an agent to create in the company.
 {
   "key": "cto",
   "name": "CTO",
-  "role": "manager",
+  "role": "cto",
   "title": "Chief Technology Officer",
   "reportsTo": "ceo",
   "capabilities": "Engineering management, code review, release management, technical planning",
   "onboardingDir": "./onboarding/cto",
   "adapterType": "claude_local",
   "adapterConfig": {
-    "model": "claude-sonnet-4-6",
+    "model": "claude-haiku-4-5-20251001",
     "maxTurnsPerRun": 150,
     "timeoutSec": 1800,
     "dangerouslySkipPermissions": true
@@ -127,9 +127,9 @@ Each entry defines an agent to create in the company.
   "desiredSkills": [
     "paperclip",
     "gstack-bridge",
-    "gstack-plan-eng-review",
-    "gstack-review",
-    "gstack-ship"
+    "plan-eng-review",
+    "review",
+    "ship"
   ],
   "heartbeat": { "schedule": "*/20 * * * *" }
 }
@@ -141,10 +141,9 @@ Each entry defines an agent to create in the company.
 
 | Agent | Model | Rationale |
 |-------|-------|-----------|
-| CEO | `claude-opus-4-6` | Highest-stakes decisions: what to build, who to assign, when to escalate |
-| All others | `claude-sonnet-4-6` | Balances capability and cost for implementation-focused work |
+| All agents | `claude-haiku-4-5-20251001` | Reliable instruction-following at low cost. End-to-end testing confirmed Haiku 4.5 follows multi-step Paperclip protocol correctly. `claude-3-haiku-20240307` (Haiku 3) is **not sufficient** — it ignores AGENTS.md and falls back to banned tools. |
 
-You can change models per agent. `claude-haiku-4-6` is available for high-frequency, low-complexity agents where cost is a concern.
+You can change models per agent in `company.json`. More capable options: `claude-sonnet-4-6` (balanced), `claude-opus-4-6` (highest capability). For high-stakes decisions (CEO) or complex open-ended tasks, upgrading to Sonnet or Opus is reasonable at the cost of higher API spend.
 
 ---
 
