@@ -31,6 +31,8 @@ Human (Board Operator)
     └── DesignLead    ← /design-review, /design-html, /design-consultation
 ```
 
+![Engineering Company Org Chart](docs/screenshots/paperclip_36_ENGA_org.png)
+
 When a human creates a task and assigns it to the CEO, the full delegation cascade runs autonomously: CEO breaks it down and delegates to its reports, each report wakes automatically on assignment, does its work, creates sub-tasks for its own reports, and so on — all coordinated through the Paperclip REST API using `curl`, with no inter-agent messaging frameworks required.
 
 **Verified in the [end-to-end test](docs/end-to-end-test-report.md):** a single task ("Implement user authentication with email/password login") cascaded through 5 agents and produced 6 issues across 2 delegation levels — all automatically, in under 10 minutes, at a total cost of $0.43.
